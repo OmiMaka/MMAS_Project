@@ -1,0 +1,66 @@
+# CPU configuration: the full experiment on cached embeddings (Tables 1 and 2, C1-C4, F1-F4).
+# Needs the embedding bundles in cache/ (made once on a GPU by scripts/extract_embeddings.py
+# and scripts/embed_descriptions.py) and the versioned descriptions in descriptions/.
+# Everything below runs on a CPU. Runtime: about 1-2 hours on 2 cores (ImageNet dominates);
+# every step resumes, so an interrupted run picks up where it stopped.
+#
+#   python scripts/run_config.py config/cpu.yaml
+#
+# Protocol: development sets are used for every choice, including calibrate. Held-out
+# sets are evaluated once, after the policy is calibrated and frozen.
+
+name: cpu
+description: Full CPU pipeline on cached ImageBind / LanguageBind embeddings, dev then held-out.
+
+paths:
+  runs: configs/runs.json             # the 13 runs of Table 1, each tagged dev or heldout
+  cache: cache
+  results: results
+  policy: configs/policy.json         # rewritten by calibrate (dev only)
+  expected: configs/expected.json     # Table 1 numbers for the reproduction check R
+
+splits:
+  dev: [esc50/imagebind, esc10/imagebind, us8k/imagebind, us8k/languagebind]
+  heldout: [vggsound/imagebind, imagenet/imagebind, imagenet/languagebind,
+            places365/imagebind, places365/languagebind, kinetics400/imagebind,
+            kinetics400/languagebind, llvip/imagebind, llvip/languagebind]
+
+# Fixed settings (match mmas/geometry.py). Not tuned on held-out data.
+settings:
+  epsilon: 0.02
+  gamma: 0.1
+  knn_k: 10
+  alpha: 0.5
+  tau_decide: 0.1
+  tau_zs: 0.01
+
+anchors:
+  T: configs/templates.json           # prompt templates
+  T+D: descriptions/                  # unit(T + mean LLM description embedding), sensor + scene agents
+  controls: [T+D:shuffled, T+D:random] # F3
+
+evaluation:
+  conditions: [balanced, IR10, IR50]  # imbalance by mmas.data.skew_idx
+  seeds: [0, 1, 2]
+  methods: [cosine, WO+P, PA-WO+P, EM-WO+P]
+  metrics: [top1, mrec]               # top-1 and per-class mean recall
+  significance: mcnemar
+  inductive_split: true               # F4: fit on half A, score half B
+
+policy:
+  ratio_threshold: 2.0                # WO+P if pi_max / pi_min < 2, else EM-WO+P
+  estimators: [em, em_trim, wo]       # chosen by calibrate on dev
+  calibrate_metric: top1
+
+# Order matters: held-out evaluation comes only after calibrate has frozen the policy.
+steps:
+  - diagnose
+  - evaluate: {split: dev}
+  - failure: {split: dev}
+  - calibrate
+  - evaluate: {split: heldout}
+  - failure: {split: heldout}
+  - report
+  - verify
+
+expect_pass: [R, C1, C2, C3, C4, F3, F4]

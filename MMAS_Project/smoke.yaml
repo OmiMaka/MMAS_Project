@@ -1,0 +1,46 @@
+# Smoke configuration: end-to-end check of the pipeline on synthetic embeddings.
+# CPU only, no downloads, no GPU, no API key. Runtime: about 1 minute on 2 cores.
+#
+#   python scripts/run_config.py config/smoke.yaml
+#
+# Synthetic data is a test of the code, not a result. It builds in both weaknesses
+# of cosine (loose text anchor, anisotropic noise), so WO+P should beat cosine when
+# balanced and fall below it at 50x, while EM-WO+P stays above cosine.
+
+name: smoke
+description: Synthetic end-to-end run of diagnose, evaluate, failure, calibrate, report and verify.
+
+paths:
+  runs: configs/runs_synthetic.json   # one run: synthetic/imagebind, split = dev
+  cache: cache_smoke
+  results: results_smoke
+  policy: results_smoke/policy.json   # calibrated policy written here, not over configs/policy.json
+
+data:
+  generator: scripts/make_synthetic.py
+  classes: 20
+  dim: 64
+  per_class: 60
+  seed: 0
+
+# Fixed settings (match mmas/geometry.py; recorded here for the evidence bundle).
+settings:
+  epsilon: 0.02        # Sinkhorn entropy
+  gamma: 0.1           # covariance shrinkage
+  knn_k: 10
+  alpha: 0.5           # k-NN smoothing weight
+  tau_decide: 0.1
+  tau_zs: 0.01
+
+evaluation:
+  conditions: [balanced, IR10, IR50]
+  seeds: [0, 1, 2]
+  methods: [cosine, WO+P, PA-WO+P, EM-WO+P]
+  metric: top1
+
+steps: [synthesize, diagnose, evaluate, failure, calibrate, report, verify]
+
+# Checks verify.py must pass for the smoke run to succeed.
+# R is skipped (no Table 1 numbers for synthetic data); the hypothesis stays
+# "undecided" because there are no held-out runs.
+expect_pass: [C1, C2, C3, C4, F3, F4]

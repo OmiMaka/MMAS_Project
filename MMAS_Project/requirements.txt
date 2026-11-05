@@ -1,6 +1,7 @@
 # core: all experiments on cached embeddings (CPU)
 numpy>=1.24
 scipy>=1.10
+pyyaml>=6.0         # scripts/run_config.py (config/smoke.yaml, config/cpu.yaml)
 
 # optional
 # torch          # read/write .pt bundles; needed by the encoders
