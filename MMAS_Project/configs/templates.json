@@ -1,0 +1,8 @@
+{
+ "_comment": "Prompt templates per modality; the class prototype t_c is the unit mean of the encoded prompts. Replace with the exact template lists used for the cached bundles if they differ.",
+ "audio":   ["a sound of a {}.", "the sound of a {}.", "a recording of a {}.", "{} sound."],
+ "image":   ["a photo of a {}.", "a bad photo of a {}.", "a photo of the {}.", "a close-up photo of a {}.", "a good photo of a {}."],
+ "video":   ["a video of a person {}.", "a video of {}.", "a person is {}.", "{}."],
+ "thermal": ["a thermal photo of a {}.", "an infrared photo of a {}.", "a thermal image of the {}."],
+ "depth":   ["a depth photo of a {}.", "a depth map of a {}."]
+}

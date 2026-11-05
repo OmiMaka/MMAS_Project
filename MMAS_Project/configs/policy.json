@@ -1,0 +1,5 @@
+{
+ "ratio_thr": 2.0,
+ "agree_thr": 0.5,
+ "estimator": "em"
+}

@@ -1,0 +1,18 @@
+{
+ "_comment": "The 13 runs of Table 1. split: dev = used while making choices (ESC-50, US8K); heldout = evaluated once after the choices are final. aliases = accepted bundle file stems.",
+ "runs": [
+  {"dataset": "esc50",       "encoder": "imagebind",    "modality": "audio",   "split": "dev"},
+  {"dataset": "esc10",       "encoder": "imagebind",    "modality": "audio",   "split": "dev"},
+  {"dataset": "us8k",        "encoder": "imagebind",    "modality": "audio",   "split": "dev"},
+  {"dataset": "us8k",        "encoder": "languagebind", "modality": "audio",   "split": "dev"},
+  {"dataset": "vggsound",    "encoder": "imagebind",    "modality": "audio",   "split": "heldout"},
+  {"dataset": "imagenet",    "encoder": "imagebind",    "modality": "image",   "split": "heldout"},
+  {"dataset": "imagenet",    "encoder": "languagebind", "modality": "image",   "split": "heldout"},
+  {"dataset": "places365",   "encoder": "imagebind",    "modality": "image",   "split": "heldout"},
+  {"dataset": "places365",   "encoder": "languagebind", "modality": "image",   "split": "heldout"},
+  {"dataset": "kinetics400", "encoder": "imagebind",    "modality": "video",   "split": "heldout", "aliases": ["kinetics400", "k400"]},
+  {"dataset": "kinetics400", "encoder": "languagebind", "modality": "video",   "split": "heldout", "aliases": ["kinetics400", "k400"]},
+  {"dataset": "llvip",       "encoder": "imagebind",    "modality": "thermal", "split": "heldout"},
+  {"dataset": "llvip",       "encoder": "languagebind", "modality": "thermal", "split": "heldout"}
+ ]
+}

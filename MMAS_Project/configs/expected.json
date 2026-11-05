@@ -1,0 +1,16 @@
+{
+ "_comment": "Table 1 of the proposal (balanced top-1 %, template anchors). verify.py marks a run reproduced if within 0.1.",
+ "esc50/imagebind":          {"cosine | T": 68.3, "WO+P | T": 79.1},
+ "esc10/imagebind":          {"cosine | T": 91.8, "WO+P | T": 96.5},
+ "us8k/imagebind":           {"cosine | T": 48.9, "WO+P | T": 53.7},
+ "vggsound/imagebind":       {"cosine | T": 27.6, "WO+P | T": 32.2},
+ "imagenet/imagebind":       {"cosine | T": 77.5, "WO+P | T": 80.4},
+ "places365/imagebind":      {"cosine | T": 46.1, "WO+P | T": 47.9},
+ "kinetics400/imagebind":    {"cosine | T": 52.9, "WO+P | T": 60.2},
+ "llvip/imagebind":          {"cosine | T": 59.8, "WO+P | T": 69.0},
+ "us8k/languagebind":        {"cosine | T": 80.2, "WO+P | T": 84.2},
+ "imagenet/languagebind":    {"cosine | T": 78.7, "WO+P | T": 80.8},
+ "places365/languagebind":   {"cosine | T": 44.8, "WO+P | T": 47.2},
+ "kinetics400/languagebind": {"cosine | T": 63.7, "WO+P | T": 67.0},
+ "llvip/languagebind":       {"cosine | T": 84.4, "WO+P | T": 89.0}
+}

@@ -1,0 +1,10 @@
+# core: all experiments on cached embeddings (CPU)
+numpy>=1.24
+scipy>=1.10
+
+# optional
+# torch          # read/write .pt bundles; needed by the encoders
+# anthropic      # scripts/make_descriptions.py (LLM class descriptions)
+# pytest         # tests/
+# ImageBind:     pip install git+https://github.com/facebookresearch/ImageBind.git
+# LanguageBind:  git clone https://github.com/PKU-YuanGroup/LanguageBind && pip install -r LanguageBind/requirements.txt

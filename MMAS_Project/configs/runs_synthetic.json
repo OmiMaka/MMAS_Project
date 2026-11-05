@@ -1,0 +1,6 @@
+{
+ "_comment": "Smoke test on scripts/make_synthetic.py output. Marked dev so that `calibrate` can run on it.",
+ "runs": [
+  {"dataset": "synthetic", "encoder": "imagebind", "modality": "audio", "split": "dev"}
+ ]
+}
